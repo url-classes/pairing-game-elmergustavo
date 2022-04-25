@@ -167,7 +167,72 @@ class juego {
 		}
 	}
 
-	
+	victoria() {
+		this.PausarTiempo()
+		swal(
+			'Ganaste!',
+			`Movimientos: ${this.movimientos} \n\n Tiempo: ${this.tiempo}`,
+			'success'
+		).then(() => {
+			console.log('hola')
+		})
+	}
+
+	juegoNuevo() {
+		location.reload()
+	}
+
+	getRndInteger(min, max) {
+		return Math.floor(Math.random() * (max - min + 1)) + min
+	}
+
+	//Cronometro
+	IniciarCronometro() {
+		if (this.stop == true) {
+			this.stop = false
+			this.cronometro()
+		}
+	}
+
+	cronometro() {
+		if (this.stop == false) {
+			this.decimales++
+			if (this.decimales > 9) {
+				this.decimales = 0
+				this.segundos++
+			}
+			if (this.segundos > 59) {
+				this.segundos = 0
+				this.minutos++
+			}
+			if (this.minutos > 59) {
+				this.minutos = 0
+				this.hora++
+			}
+			this.verCronometro()
+			setTimeout('iniciar.cronometro()', 100)
+		}
+	}
+	verCronometro() {
+		if (this.hora < 10) this.tiempo = ''
+		else this.tiempo = this.hora
+		if (this.minutos < 10) this.tiempo = this.tiempo + '0'
+		this.tiempo = this.tiempo + this.minutos + ':'
+		if (this.segundos < 10) this.tiempo = this.tiempo + '0'
+		this.tiempo = this.tiempo + this.segundos
+		document.getElementById('tiempo').innerHTML = this.tiempo
+	}
+	PausarTiempo() {
+		this.stop = true
+	}
+	ReiniciarTiempo() {
+		if (this.stop == false) {
+			this.stop = true
+		}
+		this.hora = this.minutos = this.segundos = this.decimales = 0
+		this.tiempo = ''
+		this.verCronometro()
+	}
 }
 
 const iniciar = new juego()
